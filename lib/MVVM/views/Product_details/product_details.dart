@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_store/utils/constants/colors.dart';
@@ -175,6 +176,41 @@ class ProductDetails extends StatelessWidget {
                   bText('Product Gallery :'),
                 ],
               ),
+            ),
+            SizedBox(
+              height: 3 * SizeConfig.heightMultiplier,
+            ),
+            Expanded(
+              child: MasonryGridView.count(
+                  crossAxisCount: 2,
+                  itemCount: 6,
+                  itemBuilder: (context, index) {
+                    return index.isEven
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                  color: Colors.blue,
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/smartphone_ads.png'),
+                                      fit: BoxFit.cover)),
+
+                              height: 100.0, // Adjust the
+                            ),
+                          )
+                        : Container(
+                            height: 200.0,
+                            decoration: const BoxDecoration(
+                                // color: Colors.green,
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/phone_image.png'),
+                                    fit: BoxFit.cover)),
+
+                            // Adjust the height as needed
+                          );
+                  }),
             )
           ],
         ),

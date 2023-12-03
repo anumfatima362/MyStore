@@ -1,28 +1,28 @@
 // To parse this JSON data, do
 //
-//     final productApi = productApiFromJson(jsonString);
+//     final productModel = productModelFromJson(jsonString);
 
 import 'dart:convert';
 
-ProductApi productApiFromJson(String str) =>
-    ProductApi.fromJson(json.decode(str));
+ProductModel productModelFromJson(String str) =>
+    ProductModel.fromJson(json.decode(str));
 
-String productApiToJson(ProductApi data) => json.encode(data.toJson());
+String productModelToJson(ProductModel data) => json.encode(data.toJson());
 
-class ProductApi {
+class ProductModel {
   List<Product>? products;
   int? total;
   int? skip;
   int? limit;
 
-  ProductApi({
+  ProductModel({
     this.products,
     this.total,
     this.skip,
     this.limit,
   });
 
-  factory ProductApi.fromJson(Map<String, dynamic> json) => ProductApi(
+  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         products: json["products"] == null
             ? []
             : List<Product>.from(

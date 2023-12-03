@@ -16,7 +16,7 @@ class ItemList extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           SizedBox(
             height: 2 * SizeConfig.heightMultiplier,
           ),
