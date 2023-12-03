@@ -4,8 +4,9 @@ import 'package:my_store/utils/constants/colors.dart';
 import 'package:my_store/utils/constants/size_configration.dart';
 
 class CustomTextfield extends StatelessWidget {
-  const CustomTextfield({super.key});
-
+  final ValueChanged<String>? onChanged;
+  CustomTextfield({super.key, this.onChanged});
+  TextEditingController searchItem = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,8 +16,9 @@ class CustomTextfield extends StatelessWidget {
           border: Border.all(color: AppColors.black, width: 1),
           borderRadius: BorderRadius.circular(8)),
       child: TextField(
+        controller: searchItem,
         decoration: InputDecoration(
-            label: const Text('iphone'),
+            hintText: 'Search',
             prefixIcon: Padding(
               padding: const EdgeInsets.all(8.0),
               child: SvgPicture.asset(
@@ -24,6 +26,7 @@ class CustomTextfield extends StatelessWidget {
                 // ignore: deprecated_member_use
               ),
             )),
+        onChanged: (value) {},
       ),
     );
   }

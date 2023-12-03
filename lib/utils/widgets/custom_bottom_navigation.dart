@@ -31,7 +31,7 @@ class _CustomNavigationState extends State<CustomNavigation> {
               context,
               PageRouteBuilder(
                 pageBuilder: (context, animation1, animation2) =>
-                    const ProductScreen(),
+                    ProductScreen(),
                 transitionDuration: Duration.zero,
                 reverseTransitionDuration: Duration.zero,
               ),

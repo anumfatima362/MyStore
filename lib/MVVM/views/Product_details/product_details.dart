@@ -3,12 +3,15 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_store/MVVM/viewModels/classModels/category_detail_model.dart';
 import 'package:my_store/utils/constants/colors.dart';
 import 'package:my_store/utils/constants/size_configration.dart';
 import 'package:my_store/utils/widgets/CustomText.dart';
 
 class ProductDetails extends StatelessWidget {
-  const ProductDetails({super.key});
+  final Product product;
+
+  const ProductDetails({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +48,10 @@ class ProductDetails extends StatelessWidget {
             Container(
               height: 209,
               width: 100 * SizeConfig.widthMultiplier,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.blue,
                 image: DecorationImage(
-                    image: AssetImage('assets/images/smartphone_ads.png'),
+                    image: NetworkImage(product.thumbnail ?? ''),
                     fit: BoxFit.cover),
               ),
             ),
@@ -84,7 +87,7 @@ class ProductDetails extends StatelessWidget {
                       SizedBox(
                         width: 1 * SizeConfig.widthMultiplier,
                       ),
-                      sText('iphone 9'),
+                      sText(product.title ?? ''),
                     ],
                   ),
                   SizedBox(
@@ -96,7 +99,7 @@ class ProductDetails extends StatelessWidget {
                       SizedBox(
                         width: 1 * SizeConfig.widthMultiplier,
                       ),
-                      sText('\$60'),
+                      sText('\$${product.price ?? ''}'),
                     ],
                   ),
                   SizedBox(
@@ -108,7 +111,7 @@ class ProductDetails extends StatelessWidget {
                       SizedBox(
                         width: 1 * SizeConfig.widthMultiplier,
                       ),
-                      sText('smartphones'),
+                      sText(product.category ?? ""),
                     ],
                   ),
                   SizedBox(
@@ -120,7 +123,7 @@ class ProductDetails extends StatelessWidget {
                       SizedBox(
                         width: 1 * SizeConfig.widthMultiplier,
                       ),
-                      sText('Apple'),
+                      sText(product.brand ?? ''),
                     ],
                   ),
                   SizedBox(
@@ -168,8 +171,7 @@ class ProductDetails extends StatelessWidget {
                   SizedBox(
                     height: 0.5 * SizeConfig.heightMultiplier,
                   ),
-                  sText(
-                      'Lorem Ipsum är en utfyllnadstext från tryck- och förlagsindustrin. Lorem ipsum har varit standard ända.'),
+                  sText(product.description ?? ''),
                   SizedBox(
                     height: 1 * SizeConfig.heightMultiplier,
                   ),
@@ -183,17 +185,17 @@ class ProductDetails extends StatelessWidget {
             Expanded(
               child: MasonryGridView.count(
                   crossAxisCount: 2,
-                  itemCount: 6,
+                  itemCount: product.images!.length,
                   itemBuilder: (context, index) {
                     return index.isEven
                         ? Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              decoration: const BoxDecoration(
+                              decoration: BoxDecoration(
                                   color: Colors.blue,
                                   image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/images/smartphone_ads.png'),
+                                      image:
+                                          NetworkImage(product.images![index]),
                                       fit: BoxFit.cover)),
 
                               height: 100.0, // Adjust the
@@ -201,11 +203,10 @@ class ProductDetails extends StatelessWidget {
                           )
                         : Container(
                             height: 200.0,
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                                 // color: Colors.green,
                                 image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/phone_image.png'),
+                                    image: NetworkImage(product.images![index]),
                                     fit: BoxFit.cover)),
 
                             // Adjust the height as needed

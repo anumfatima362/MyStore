@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:my_store/MVVM/views/CategoriesScreen/categories.dart';
 import 'package:my_store/MVVM/views/FavoriteScreen/favorite.dart';
 import 'package:my_store/MVVM/views/Product_Screen/product_screen.dart';
-import 'package:my_store/MVVM/views/Product_details/product_details.dart';
-import 'package:my_store/MVVM/views/Product_list_Screen/item_list.dart';
 import 'package:my_store/MVVM/views/splashscreen/splash_screen.dart';
 
 class RouterHelper {
@@ -20,7 +18,5 @@ class RouterHelper {
     productscreen: (context) => const ProductScreen(),
     categoriesScreen: (context) => const CategoriesScreen(),
     favoriteScreen: (context) => const FavoriteScreen(),
-    itemlist: (context) => const ItemList(),
-    product_details: (context) => const ProductDetails(),
   };
 }

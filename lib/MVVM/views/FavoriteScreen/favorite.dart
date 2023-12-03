@@ -25,7 +25,7 @@ class FavoriteScreen extends StatelessWidget {
             SizedBox(
               height: 1 * SizeConfig.heightMultiplier,
             ),
-            const CustomTextfield(),
+            CustomTextfield(),
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: 12 * SizeConfig.widthMultiplier,

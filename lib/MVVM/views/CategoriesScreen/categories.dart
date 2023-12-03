@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
-import 'package:my_store/helper/Routes_helper/route_helper.dart';
+import 'package:my_store/MVVM/viewModels/services/api_services.dart';
+import 'package:my_store/MVVM/views/Product_list_Screen/item_list.dart';
 import 'package:my_store/utils/constants/colors.dart';
 import 'package:my_store/utils/constants/size_configration.dart';
 import 'package:my_store/utils/widgets/CustomText.dart';
@@ -11,6 +9,8 @@ import 'package:my_store/utils/widgets/custom_bottom_navigation.dart';
 import 'package:my_store/utils/widgets/customtextfield.dart';
 
 class CategoriesScreen extends StatefulWidget {
+  static const routName = '/categories';
+
   const CategoriesScreen({super.key});
 
   @override
@@ -18,17 +18,6 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
-  Future<List<String>> getCategoryApi() async {
-    final respons =
-        await http.get(Uri.parse('https://dummyjson.com/products/categories'));
-    var data = jsonDecode(respons.body.toString());
-    if (respons.statusCode == 200) {
-      return List<String>.from(data);
-    } else {
-      return List<String>.from(data);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +33,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             SizedBox(
               height: 1 * SizeConfig.heightMultiplier,
             ),
-            const CustomTextfield(),
+            CustomTextfield(),
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: 12 * SizeConfig.widthMultiplier,
@@ -69,7 +58,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   Widget buildgridView(double width) {
     int crossAxisCount = calculateCrossAxisCount(width);
     return FutureBuilder<List<String>>(
-        future: getCategoryApi(),
+        future: ApiServices.getCategoryApi(''),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // If the Future is still running, show a loading indicator
@@ -94,9 +83,15 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   final category = snapshot.data![index];
+
                   return GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, RouterHelper.itemlist);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return ItemList(
+                          categoryName: category,
+                        );
+                      }));
                     },
                     child: Container(
                       margin: const EdgeInsets.only(
@@ -141,20 +136,3 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     return crossAxisCount;
   }
 }
-
-
-
-
-
-
-
-//============================================================================================
-
-
-
-
-
-
-
-
-
