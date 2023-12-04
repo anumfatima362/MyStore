@@ -1,11 +1,8 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import 'package:my_store/MVVM/viewModels/classModels/productModel.dart';
+import 'package:my_store/MVVM/viewModels/services/api_services.dart';
 import 'package:my_store/utils/constants/colors.dart';
 import 'package:my_store/utils/constants/size_configration.dart';
 import 'package:my_store/utils/widgets/CustomText.dart';
@@ -20,18 +17,19 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-  List<Product> filteredProducts = [];
+  TextEditingController searchController = TextEditingController();
+  List<Product> productList = [];
 
-  Future<ProductModel> getPostApi() async {
-    //ham api sa response ka wait kare ga
-    final response =
-        await http.get(Uri.parse('https://dummyjson.com/products?limit=100'));
-    // ab response ko ham dynamic variable ka andr store kare ga
-    var data = jsonDecode(response.body.toString());
-    if (response.statusCode == 200) {
-      return ProductModel.fromJson(data);
+  //perform Search
+  List<Product> performSearch(List<Product> products, String query) {
+    if (query.isNotEmpty) {
+      return products
+          .where((product) =>
+              product.title!.toLowerCase().contains(query.toLowerCase()))
+          .toList();
     } else {
-      return ProductModel.fromJson(data);
+      // If the query is empty, return all products
+      return products;
     }
   }
 
@@ -50,7 +48,13 @@ class _ProductScreenState extends State<ProductScreen> {
               height: 1 * SizeConfig.heightMultiplier,
             ),
             CustomTextfield(
-              onChanged: (value) {},
+              controller: searchController,
+              onChanged: (value) {
+                // Call the performSearch method with the entered text
+                setState(() {
+                  productList = performSearch(productList, value);
+                });
+              },
             ),
             SizedBox(
               height: 1 * SizeConfig.heightMultiplier,
@@ -68,17 +72,22 @@ class _ProductScreenState extends State<ProductScreen> {
             ),
             Expanded(
               child: FutureBuilder<ProductModel>(
-                  future: getPostApi(),
+                  future: ApiServices.getPostApi(''),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
                       return Text('${snapshot.hasData}');
                     } else {
+                      List<Product> filteredProducts = performSearch(
+                          snapshot.data!.products!, searchController.text);
+
                       return ListView.builder(
-                          itemCount: snapshot.data!.products!.length,
+                          itemCount: filteredProducts.length,
+                          //itemCount: snapshot.data!.products!.length,
                           itemBuilder: ((context, index) {
-                            final product = snapshot.data!.products![index];
+                            final product = filteredProducts[index];
+                            // final product = snapshot.data!.products![index];
                             return Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 5 * SizeConfig.widthMultiplier,

@@ -5,7 +5,10 @@ import 'package:my_store/utils/constants/size_configration.dart';
 
 class CustomTextfield extends StatelessWidget {
   final ValueChanged<String>? onChanged;
-  CustomTextfield({super.key, this.onChanged});
+  final TextEditingController? controller;
+
+  CustomTextfield({super.key, this.onChanged, this.controller});
+
   TextEditingController searchItem = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -15,7 +18,7 @@ class CustomTextfield extends StatelessWidget {
           border: Border.all(color: AppColors.black, width: 1),
           borderRadius: BorderRadius.circular(8)),
       child: TextField(
-        controller: searchItem,
+        controller: controller,
         decoration: InputDecoration(
             border: InputBorder.none,
             hintText: 'Search',
@@ -26,7 +29,7 @@ class CustomTextfield extends StatelessWidget {
                 // ignore: deprecated_member_use
               ),
             )),
-        onChanged: (value) {},
+        onChanged: onChanged,
       ),
     );
   }
