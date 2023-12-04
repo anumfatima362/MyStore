@@ -4,17 +4,25 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_store/MVVM/viewModels/classModels/category_detail_model.dart';
+import 'package:my_store/MVVM/viewModels/providers/favorite_provider.dart';
 import 'package:my_store/utils/constants/colors.dart';
 import 'package:my_store/utils/constants/size_configration.dart';
 import 'package:my_store/utils/widgets/CustomText.dart';
+import 'package:provider/provider.dart';
 
-class ProductDetails extends StatelessWidget {
+class ProductDetails extends StatefulWidget {
   final Product product;
 
   const ProductDetails({super.key, required this.product});
 
   @override
+  State<ProductDetails> createState() => _ProductDetailsState();
+}
+
+class _ProductDetailsState extends State<ProductDetails> {
+  @override
   Widget build(BuildContext context) {
+    final favoriteProvider = Provider.of<Favorite>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -51,7 +59,7 @@ class ProductDetails extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.blue,
                 image: DecorationImage(
-                    image: NetworkImage(product.thumbnail ?? ''),
+                    image: NetworkImage(widget.product.thumbnail ?? ''),
                     fit: BoxFit.cover),
               ),
             ),
@@ -75,7 +83,22 @@ class ProductDetails extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      SvgPicture.asset('assets/icons/like.svg'),
+                      GestureDetector(
+                          onTap: () {
+                            if (favoriteProvider
+                                .isProductLiked(widget.product.id!)) {
+                              favoriteProvider
+                                  .removeFromFavorites(widget.product);
+                            } else {
+                              favoriteProvider.addToFavorites(widget.product);
+                            }
+                            setState(() {});
+                          },
+                          child: SvgPicture.asset(
+                            favoriteProvider.isProductLiked(widget.product.id!)
+                                ? 'assets/icons/like_filled.svg'
+                                : 'assets/icons/like.svg',
+                          )),
                     ],
                   ),
                   SizedBox(
@@ -87,7 +110,7 @@ class ProductDetails extends StatelessWidget {
                       SizedBox(
                         width: 1 * SizeConfig.widthMultiplier,
                       ),
-                      sText(product.title ?? ''),
+                      sText(widget.product.title ?? ''),
                     ],
                   ),
                   SizedBox(
@@ -99,7 +122,7 @@ class ProductDetails extends StatelessWidget {
                       SizedBox(
                         width: 1 * SizeConfig.widthMultiplier,
                       ),
-                      sText('\$${product.price ?? ''}'),
+                      sText('\$${widget.product.price ?? ''}'),
                     ],
                   ),
                   SizedBox(
@@ -111,7 +134,7 @@ class ProductDetails extends StatelessWidget {
                       SizedBox(
                         width: 1 * SizeConfig.widthMultiplier,
                       ),
-                      sText(product.category ?? ""),
+                      sText(widget.product.category ?? ""),
                     ],
                   ),
                   SizedBox(
@@ -123,7 +146,7 @@ class ProductDetails extends StatelessWidget {
                       SizedBox(
                         width: 1 * SizeConfig.widthMultiplier,
                       ),
-                      sText(product.brand ?? ''),
+                      sText(widget.product.brand ?? ''),
                     ],
                   ),
                   SizedBox(
@@ -171,7 +194,7 @@ class ProductDetails extends StatelessWidget {
                   SizedBox(
                     height: 0.5 * SizeConfig.heightMultiplier,
                   ),
-                  sText(product.description ?? ''),
+                  sText(widget.product.description ?? ''),
                   SizedBox(
                     height: 1 * SizeConfig.heightMultiplier,
                   ),
@@ -185,17 +208,17 @@ class ProductDetails extends StatelessWidget {
             Expanded(
               child: MasonryGridView.count(
                   crossAxisCount: 2,
-                  itemCount: product.images!.length,
+                  itemCount: widget.product.images!.length,
                   itemBuilder: (context, index) {
                     return index.isEven
                         ? Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: Colors.blue,
+                                  //  color: Colors.blue,
                                   image: DecorationImage(
-                                      image:
-                                          NetworkImage(product.images![index]),
+                                      image: NetworkImage(
+                                          widget.product.images![index]),
                                       fit: BoxFit.cover)),
 
                               height: 100.0, // Adjust the
@@ -206,7 +229,8 @@ class ProductDetails extends StatelessWidget {
                             decoration: BoxDecoration(
                                 // color: Colors.green,
                                 image: DecorationImage(
-                                    image: NetworkImage(product.images![index]),
+                                    image: NetworkImage(
+                                        widget.product.images![index]),
                                     fit: BoxFit.cover)),
 
                             // Adjust the height as needed

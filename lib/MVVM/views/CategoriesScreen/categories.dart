@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_store/MVVM/viewModels/services/api_services.dart';
-import 'package:my_store/MVVM/views/Product_list_Screen/item_list.dart';
+import 'package:my_store/MVVM/views/Product_Category_Screen/item_list.dart';
 import 'package:my_store/utils/constants/colors.dart';
 import 'package:my_store/utils/constants/size_configration.dart';
 import 'package:my_store/utils/widgets/CustomText.dart';
@@ -9,7 +9,7 @@ import 'package:my_store/utils/widgets/custom_bottom_navigation.dart';
 import 'package:my_store/utils/widgets/customtextfield.dart';
 
 class CategoriesScreen extends StatefulWidget {
-  static const routName = '/categories';
+  // static const routName = '/categories';
 
   const CategoriesScreen({super.key});
 
@@ -34,11 +34,19 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               height: 1 * SizeConfig.heightMultiplier,
             ),
             CustomTextfield(),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 12 * SizeConfig.widthMultiplier,
-                  vertical: 3 * SizeConfig.widthMultiplier),
-              child: Align(alignment: Alignment.centerLeft, child: ctext()),
+            SizedBox(
+              height: 1 * SizeConfig.heightMultiplier,
+            ),
+            Container(
+              height: 18,
+              width: 80 * SizeConfig.widthMultiplier,
+              decoration: const BoxDecoration(
+                  // color: Colors.black12,
+                  ),
+              child: ctext(),
+            ),
+            SizedBox(
+              height: 1 * SizeConfig.heightMultiplier,
             ),
             SizedBox(
               height: 0.1 * SizeConfig.heightMultiplier,

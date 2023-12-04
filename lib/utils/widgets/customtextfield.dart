@@ -10,7 +10,6 @@ class CustomTextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 5 * SizeConfig.heightMultiplier,
       width: 88 * SizeConfig.widthMultiplier,
       decoration: BoxDecoration(
           border: Border.all(color: AppColors.black, width: 1),
@@ -18,6 +17,7 @@ class CustomTextfield extends StatelessWidget {
       child: TextField(
         controller: searchItem,
         decoration: InputDecoration(
+            border: InputBorder.none,
             hintText: 'Search',
             prefixIcon: Padding(
               padding: const EdgeInsets.all(8.0),

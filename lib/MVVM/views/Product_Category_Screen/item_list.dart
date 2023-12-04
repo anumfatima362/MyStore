@@ -51,11 +51,19 @@ class _ItemListState extends State<ItemList> {
             height: 1 * SizeConfig.heightMultiplier,
           ),
           CustomTextfield(),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: 12 * SizeConfig.widthMultiplier,
-                vertical: 3 * SizeConfig.widthMultiplier),
-            child: Align(alignment: Alignment.centerLeft, child: ctext()),
+          SizedBox(
+            height: 1 * SizeConfig.heightMultiplier,
+          ),
+          Container(
+            height: 18,
+            width: 80 * SizeConfig.widthMultiplier,
+            decoration: const BoxDecoration(
+                // color: Colors.black12,
+                ),
+            child: ctext(),
+          ),
+          SizedBox(
+            height: 1 * SizeConfig.heightMultiplier,
           ),
           Expanded(
             child: FutureBuilder(
@@ -90,8 +98,9 @@ class _ItemListState extends State<ItemList> {
                                   }));
                                 },
                                 child: Container(
+                                  width: 318,
                                   height: 40 * SizeConfig.heightMultiplier,
-                                  width: 20 * SizeConfig.widthMultiplier,
+                                  // width: 20 * SizeConfig.widthMultiplier,
                                   decoration: BoxDecoration(
                                       border: Border.all(
                                           color:
@@ -108,7 +117,9 @@ class _ItemListState extends State<ItemList> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Container(
-                                            height: 190,
+                                            height:
+                                                48 * SizeConfig.widthMultiplier,
+                                            //  height: 190,
                                             // width: 325,
                                             decoration: BoxDecoration(
                                                 image: DecorationImage(

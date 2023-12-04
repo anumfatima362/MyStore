@@ -52,11 +52,19 @@ class _ProductScreenState extends State<ProductScreen> {
             CustomTextfield(
               onChanged: (value) {},
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 12 * SizeConfig.widthMultiplier,
-                  vertical: 3 * SizeConfig.widthMultiplier),
-              child: Align(alignment: Alignment.centerLeft, child: ctext()),
+            SizedBox(
+              height: 1 * SizeConfig.heightMultiplier,
+            ),
+            Container(
+              height: 18,
+              width: 80 * SizeConfig.widthMultiplier,
+              decoration: const BoxDecoration(
+                  // color: Colors.black12,
+                  ),
+              child: ctext(),
+            ),
+            SizedBox(
+              height: 1 * SizeConfig.heightMultiplier,
             ),
             Expanded(
               child: FutureBuilder<ProductModel>(
@@ -78,8 +86,9 @@ class _ProductScreenState extends State<ProductScreen> {
                               child: Card(
                                 elevation: 0.5,
                                 child: Container(
+                                  width: 318,
                                   height: 40 * SizeConfig.heightMultiplier,
-                                  width: 20 * SizeConfig.widthMultiplier,
+                                  // width: 20 * SizeConfig.widthMultiplier,
                                   decoration: BoxDecoration(
                                       border: Border.all(
                                           color:
@@ -96,8 +105,8 @@ class _ProductScreenState extends State<ProductScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Container(
-                                            height: 190,
-                                            // width: 325,
+                                            height:
+                                                45 * SizeConfig.widthMultiplier,
                                             decoration: BoxDecoration(
                                                 image: DecorationImage(
                                                     image: NetworkImage(
