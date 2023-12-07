@@ -5,6 +5,12 @@ class Favorite extends ChangeNotifier {
   final List<Product> _likedProductIds = [];
   List<Product> get likedProductIds => _likedProductIds;
 
+
+
+   List<Product> _filteredLikedProducts = [];
+   List<Product> get filteredLikedProducts => _filteredLikedProducts ;
+
+
   bool isProductLiked(int productId) {
     return _likedProductIds.any((product) => product.id == productId);
   }
@@ -21,4 +27,18 @@ class Favorite extends ChangeNotifier {
         .removeWhere((likedProduct) => likedProduct.id == product.id);
     notifyListeners();
   }
+
+
+
+ void filterLikedProducts(String query){
+  if(query.isEmpty){
+    _filteredLikedProducts =_likedProductIds;
+  }
+  else{
+   _filteredLikedProducts = _likedProductIds.where((product) =>
+   product.title!.toLowerCase().contains(query.toLowerCase())).toList();
+  }
+   notifyListeners();
+ }
+
 }

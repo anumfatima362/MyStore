@@ -20,6 +20,7 @@ class ItemList extends StatefulWidget {
 }
 
 class _ItemListState extends State<ItemList> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +51,9 @@ class _ItemListState extends State<ItemList> {
           SizedBox(
             height: 1 * SizeConfig.heightMultiplier,
           ),
-          CustomTextfield(),
+          CustomTextfield(
+
+          ),
           SizedBox(
             height: 1 * SizeConfig.heightMultiplier,
           ),
@@ -77,6 +80,8 @@ class _ItemListState extends State<ItemList> {
                     return const Text('No data is Available');
                   } else {
                     CategoryDetailModel categoryDetail = snapshot.data!;
+
+                     List<Product> products = categoryDetail.products!;
                     return ListView.builder(
                         itemCount: categoryDetail.products!.length,
                         itemBuilder: ((context, index) {

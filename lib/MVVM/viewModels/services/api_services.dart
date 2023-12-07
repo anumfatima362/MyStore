@@ -62,4 +62,6 @@ class ApiServices {
       return ProductModel.fromJson(data);
     }
   }
+
+  static fetchSearchResults(String categoryName, String query) {}
 }

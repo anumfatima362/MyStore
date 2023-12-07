@@ -18,6 +18,27 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
+  TextEditingController searchController = TextEditingController();
+
+  @override
+  void initState(){
+    super.initState();
+
+  }
+
+  Future<void> searchProducts(String query) async {
+   final favoriteProvider = Provider.of<Favorite>(context ,listen: false);
+   setState(() {
+    favoriteProvider.filterLikedProducts(query);
+   });
+
+  }
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     final favoriteProvider = Provider.of<Favorite>(context);
@@ -34,7 +55,14 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             SizedBox(
               height: 1 * SizeConfig.heightMultiplier,
             ),
-            CustomTextfield(),
+            CustomTextfield(
+              controller: searchController,
+              onChanged: (value) {
+                setState(() {
+                  searchProducts(value);
+                });
+              },
+            ),
             SizedBox(
               height: 1 * SizeConfig.heightMultiplier,
             ),
@@ -51,9 +79,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             ),
             Expanded(
               child: ListView.builder(
-                  itemCount: favoriteProvider.likedProductIds.length,
+                 itemCount: favoriteProvider.filteredLikedProducts.length ,
+                 // itemCount: favoriteProvider.likedProductIds.length,
                   itemBuilder: (context, index) {
-                    Product product = favoriteProvider.likedProductIds[index];
+                    Product product = favoriteProvider.filteredLikedProducts[index];
+                    //Product product = favoriteProvider.likedProductIds[index];
                     return Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: 5 * SizeConfig.widthMultiplier),

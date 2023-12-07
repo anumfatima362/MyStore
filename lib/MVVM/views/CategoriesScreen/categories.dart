@@ -18,6 +18,42 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
+
+  List<String> allCategories = [];
+  List<String> displayedCategories = [];
+  TextEditingController searchController = TextEditingController();
+
+
+  @override
+  void initState(){
+    super.initState();
+   // Call your API to get the category list and set it to allCategories
+    // You can use your own API service method here
+    fetchCategories();
+
+  }
+
+  Future<void> fetchCategories() async{
+  try{
+  List<String> categories =  await ApiServices.getCategoryApi('');
+  setState(() {
+    allCategories = categories;
+    displayedCategories = List.from(allCategories);
+  });
+  }
+  catch(error){
+      print('Error fetching categories: $error');
+      // Handle error as needed, e.g., show an error message to the user
+
+  }
+  }
+
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +69,15 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             SizedBox(
               height: 1 * SizeConfig.heightMultiplier,
             ),
-            CustomTextfield(),
+            CustomTextfield(
+              controller: searchController,
+              onChanged: (value) {
+                setState(() {
+                  displayedCategories = allCategories.where((category) =>
+                   category.toLowerCase().contains(value.toLowerCase())).toList();
+                });
+              },
+            ),
             SizedBox(
               height: 1 * SizeConfig.heightMultiplier,
             ),
@@ -61,9 +105,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       ),
       bottomNavigationBar: const CustomNavigation(),
     );
+
   }
 
-  Widget buildgridView(double width) {
+     Widget buildgridView(double width) {
     int crossAxisCount = calculateCrossAxisCount(width);
     return FutureBuilder<List<String>>(
         future: ApiServices.getCategoryApi(''),
@@ -88,9 +133,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   childAspectRatio:
                       1.0, // Adjust this value to control item aspect ratio
                 ),
-                itemCount: snapshot.data!.length,
+                itemCount: displayedCategories.length,
+               // itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  final category = snapshot.data![index];
+
+                //  final category = snapshot.data![index];
+
+                final category = displayedCategories[index];
 
                   return GestureDetector(
                     onTap: () {
@@ -143,4 +192,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     int crossAxisCount = (width / 200).floor(); // Adjust item width as needed
     return crossAxisCount;
   }
+
+
+
+
+
 }

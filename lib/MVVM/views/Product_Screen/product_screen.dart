@@ -18,7 +18,7 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   TextEditingController searchController = TextEditingController();
-  List<Product> productList = [];
+   List<Product> productList = [];
 
   //perform Search
   List<Product> performSearch(List<Product> products, String query) {
